@@ -1,0 +1,229 @@
+class Contact:
+        def __init__(self, name, phone, email):
+            self.name = name
+            self.phone = phone
+            self.email = email
+        def __str__(self):
+            return f"{self.name} - {self.phone} - {self.email}"
+
+import contact
+import json
+class ContactManager:
+        def __init__(self, filename):
+            self.filename = filename
+            try:
+                with open(self.filename, 'r') as file11:
+                    jsonContent = json.load(file11)
+                    self.contacts = jsonContent
+            except (FileNotFoundError, json.JSONDecodeError):
+                self.contacts = [ ]
+            self.n = len(self.contacts) + 1
+        def add_contact(self):
+            choiceName = input("Welcome! What's Your Name?").lower().strip()
+            choicePhone = input(f"Perfect, {choiceName} ! What's Your Phone Number?").lower().strip()
+            choiceEmail = input("Finally, What's Your Email?").lower().strip()
+            c = contact.Contact(choiceName, choicePhone, choiceEmail)
+            dict1 = {"id": self.n, "name": c.name, "phone": c.phone, "email": c.email}
+            self.contacts.append(dict1)
+            with open("contacts.json", 'w') as file11:
+                json.dump(self.contacts, file11)
+            self.n = self.n + 1
+        def show_all(self):
+            with open("contacts.json", 'r') as file11:
+                contacts = json.load(file11)
+                print(contacts)
+        def search(self):
+            choiceMatch = input("What's Your Name?").strip().lower()
+            found = False
+            for c in self.contacts:
+                if c["name"] == choiceMatch:
+                    print(c)
+                    found = True
+            if not found:
+                print('Not Found')
+        def delete_contact(self):
+            choiceDel = input("What Contact Do You Want To Delete?").strip().lower()
+            self.contacts = [c for c in self.contacts if c["name"] != choiceDel]
+            with open(self.filename, 'w') as file11:
+                json.dump(self.contacts, file11)
+
+import ContactManager
+def main():
+            while True:
+                manager = ContactManager.ContactManager("contacts.json")
+                choice1 = input('Welcome to Python Contact Manager! 1 - Add A Contact, 2 - Show All, 3 - Search, 4 - Delete, 5 - Quit').lower().strip()
+                if choice1 == 'add a contact' or choice1 == '1':
+                    manager.add_contact()
+                elif choice1 == 'show all' or choice1 == '2':
+                    manager.show_all()
+                elif choice1 == 'search' or choice1 == '3':
+                    manager.search()
+                elif choice1 == 'delete' or choice1 == '4':
+                    manager.delete_contact()
+                elif choice1 == 'quit' or choice1 == '5':
+                    print('Goodbye!')
+                    break
+					
+if __name__ == "__main__":
+    main()
+
+
+>>> while True:
+...         choice = int(input('How Old?'))
+...         if choice < 13:
+...             print('Kid')
+...             break
+...         elif choice <= 19 and choice >= 13:
+...             print('Teen')
+...             break
+...         else:
+...             print('Adult')
+...             break
+...
+How Old? 16
+Teen
+
+>>> for n in range(1, 31):
+...         if n % 3 == 0:
+...                 print(n)
+...
+3
+6
+9
+12
+15
+18
+21
+24
+27
+30
+
+>>> while True:
+...         choice = int(input('Number?'))
+...         if choice == -1:
+...                 print('Stopped.')
+...                 break
+...         else:
+...                 print('no')
+...
+Number? 3
+no
+Number? 5
+no
+Number? 1
+no
+Number? -1
+Stopped.
+
+>>> nums = [4, 8, 15, 16, 23, 42]
+>>> print(nums[-1])
+42
+>>> nums.append(99)
+>>> nums
+[4, 8, 15, 16, 23, 42, 99]
+>>> nums.remove(15)
+>>> nums
+[4, 8, 16, 23, 42, 99]
+>>> len(nums)
+6
+
+>>> nums2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+>>> greater5DoubledNums2 = [n * 2 for n in nums2 if n > 5]
+>>> greater5DoubledNums2
+[12, 14, 16, 18, 20]
+
+>>> person = {"name": "Nate", "age": 20} >>> person = {"name": "Nate", "age": 20, "City": "NYC"}
+>>> person
+{'name': 'Nate', 'age': 20, 'City': 'NYC'}
+
+>>> def divide(a, b):
+...         if b != 0:
+...                 return a / b
+...         else:
+...                 return 'Cannot Divide By Zero.'
+...
+>>> divide(10, 2)
+5.0
+>>> divide(10, 0)
+'Cannot Divide By Zero.'
+
+>>> while True:
+...         try:
+...                 choice2 = int(input("What's The Number?"))
+...                 print(100 / choice2)
+...         except ValueError:
+...                 print('Enter A NUMBER!')
+...         except ZeroDivisionError:
+...                 print('Cannot Divide By Zero.')
+...
+...
+What's The Number? 10
+10.0
+What's The Number? 0
+Cannot Divide By Zero.
+What's The Number? Zero
+Enter A NUMBER!
+What's The Number?
+
+say = 'Line 1'
+say2 = 'Line 2'
+with open(r"C:\Users\Lowkey\Desktop\test.txt", 'a') as file12:
+        file12.write(f"{say}\n")
+        file12.write(f"{say2}\n")
+with open(r"C:\Users\Lowkey\Desktop\test.txt", 'r') as file12:
+        content = file12.read()
+        print(content)
+
+>>> class Car:
+...         def __init__(self, brand, model):
+...             self.brand = brand
+...             self.model = model
+...         def __str__(self):
+...             return f"{self.brand} {self.model}"
+...         def honk(self):
+...             return 'honk'  >>> car1 = Car('Tesla', 'X10')
+>>> print(car1)
+Tesla X10
+>>> car1.honk()
+'honk'
+
+class ItemSaver:
+        def __init__(self, itemName):
+            self.itemName = itemName
+        def add_item(self):
+            choice = input('What Item You Want To Save?')
+            with open(r"C:\Users\Lowkey\Desktop\stuff.json", 'a') as file13:
+                file13.write(f"{choice}\n")
+        def view_all(self):
+            with open(r"C:\Users\Lowkey\Desktop\stuff.json", 'r') as file13:
+                content = file13.read()
+                print(content)
+
+>>> import ItemSaver
+... def main():
+...         while True:
+...             saver = ItemSaver.ItemSaver('stuff.json')
+...             choice1 = input('Welcome to ItemSaver! 1 - Add Item, 2 - Show All, 3 - Quit').lower().strip()
+...             if choice1 == 'add item' or choice1 == '1':
+...                 saver.add_item()
+...             elif choice1 == 'show all' or choice1 == '2':
+...                 saver.view_all()
+...             elif choice1 == 'quit' or choice1 == '3':
+...                 print('Goodbye!')
+...                 break
+... if __name__ == "__main__":
+...         main()
+...
+Welcome to ItemSaver! 1 - Add Item, 2 - Show All, 3 - Quit 1
+What Item You Want To Save? Item1
+Welcome to ItemSaver! 1 - Add Item, 2 - Show All, 3 - Quit 2
+ Item1
+
+Welcome to ItemSaver! 1 - Add Item, 2 - Show All, 3 - Quit 1
+What Item You Want To Save? Item2
+Welcome to ItemSaver! 1 - Add Item, 2 - Show All, 3 - Quit 2
+ Item1
+ Item2
+
+Welcome to ItemSaver! 1 - Add Item, 2 - Show All, 3 - Quit 3
+Goodbye!
